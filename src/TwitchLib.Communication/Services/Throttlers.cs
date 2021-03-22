@@ -83,7 +83,7 @@ namespace TwitchLib.Communication.Services
         public Task StartSenderTask()
         {
             StartThrottlingWindowReset();
-            
+
             return Task.Run(async () =>
             {
                 try
@@ -109,7 +109,11 @@ namespace TwitchLib.Communication.Services
                         if (!_client.IsConnected || ShouldDispose) continue;
 
                         var msg = SendQueue.Take(TokenSource.Token);
-                        if (msg.Item1.Add(_client.Options.SendCacheItemTimeout) < DateTime.UtcNow) continue;
+                        if (msg.Item1.Add(_client.Options.SendCacheItemTimeout) < DateTime.UtcNow)
+                        {
+                            _client.SendFailed(new OnSendFailedEventArgs() { Data = msg.Item2, Exception = new TimeoutException("The message could't be sent within the timeout period.") });
+                            continue;
+                        }
 
                         try
                         {
