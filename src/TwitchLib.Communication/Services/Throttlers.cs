@@ -132,6 +132,7 @@ namespace TwitchLib.Communication.Services
                         catch (Exception ex)
                         {
                             _client.SendFailed(new OnSendFailedEventArgs {Data = msg.Item2, Exception = ex});
+                            _client.Error(new OnErrorEventArgs { Exception = ex });
                             break;
                         }
                     }
@@ -192,6 +193,7 @@ namespace TwitchLib.Communication.Services
                         catch (Exception ex)
                         {
                             _client.SendFailed(new OnSendFailedEventArgs {Data = msg.Item2, Exception = ex});
+                            _client.Error(new OnErrorEventArgs { Exception = ex });
                             break;
                         }
                     }
