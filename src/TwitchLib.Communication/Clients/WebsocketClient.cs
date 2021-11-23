@@ -187,8 +187,9 @@ namespace TwitchLib.Communication.Clients
                     {
                         result = await Client.ReceiveAsync(new ArraySegment<byte>(buffer), _tokenSource.Token);
                     }
-                    catch
+                    catch(Exception ex)
                     {
+                        OnError?.Invoke(this, new OnErrorEventArgs { Exception = ex });
                         InitializeClient();
                         break;
                     }
