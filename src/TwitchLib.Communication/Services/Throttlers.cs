@@ -188,7 +188,7 @@ namespace TwitchLib.Communication.Services
                                     break;
                             }
 
-                            IncrementSentCount();
+                            IncrementWhisperCount();
                         }
                         catch (Exception ex)
                         {
